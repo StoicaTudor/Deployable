@@ -1,0 +1,36 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_IP=db_mysql
+      - DB_PORT=3306
+      - DB_USER=Citadin3
+      - DB_PASSWORD=Aaladin2000-
+      - DB_DBNAME=EnergyWhatever
+    ports:
+      - "8083:8080"
+    networks:
+      - users-mysql
+    depends_on:
+      - db_mysql
+
+
+
+  db_mysql:
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Aaladin2000-
+      - MYSQL_DATABASE=EnergyWhatever
+    container_name: db_mysql
+    networks:
+      - users-mysql
+
+
+
+networks:
+  users-mysql:

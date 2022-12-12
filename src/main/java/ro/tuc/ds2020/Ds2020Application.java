@@ -2,14 +2,21 @@ package ro.tuc.ds2020;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.TimeZone;
 
 @SpringBootApplication
 @Validated
+//@ComponentScan("ro.tuc.ds2020.mapper")
 public class Ds2020Application extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -19,5 +26,16 @@ public class Ds2020Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         SpringApplication.run(Ds2020Application.class, args);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedMethods("*");
+            }
+        };
     }
 }
